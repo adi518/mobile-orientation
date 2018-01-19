@@ -109,22 +109,22 @@ var MobileOrientation = exports.MobileOrientation = function () {
 
     _classCallCheck(this, MobileOrientation);
 
-    this.detectLandscapeOrientation = function () {
+    this.detectLandscape = function () {
       if (_this.isLandscape && _this.isMobile) {
         _this.state = 'landscape';
       }
     };
 
-    this.detectPortraitOrientation = function () {
+    this.detectPortrait = function () {
       if (_this.isPortrait || _this.isDesktop) {
         _this.state = 'portrait';
       }
     };
 
-    window.addEventListener('resize', this.detectPortraitOrientation);
-    window.addEventListener('resize', (0, _lodash2.default)(this.detectLandscapeOrientation, 500));
-    this.detectLandscapeOrientation();
-    this.detectPortraitOrientation();
+    window.addEventListener('resize', this.detectPortrait);
+    window.addEventListener('resize', (0, _lodash2.default)(this.detectLandscape, 500));
+    this.detectLandscape();
+    this.detectPortrait();
   }
 
   _createClass(MobileOrientation, [{

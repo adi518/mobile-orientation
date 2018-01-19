@@ -10,10 +10,10 @@ import generateDebounce from 'lodash.debounce'
 // Implementation
 export class MobileOrientation {
   constructor() {
-    window.addEventListener('resize', this.detectPortraitOrientation)
-    window.addEventListener('resize', generateDebounce(this.detectLandscapeOrientation, 500))
-    this.detectLandscapeOrientation()
-    this.detectPortraitOrientation()
+    window.addEventListener('resize', this.detectPortrait)
+    window.addEventListener('resize', generateDebounce(this.detectLandscape, 500))
+    this.detectLandscape()
+    this.detectPortrait()
   }
   get isMobile() {
     const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
@@ -30,12 +30,12 @@ export class MobileOrientation {
   get isLandscape() {
     return screen.width > screen.height || window.matchMedia('all and (orientation:landscape)').matches
   }
-  detectLandscapeOrientation = () => {
+  detectLandscape = () => {
     if (this.isLandscape && this.isMobile) {
       this.state = 'landscape'
     }
   }
-  detectPortraitOrientation = () => {
+  detectPortrait = () => {
     if (this.isPortrait || this.isDesktop) {
       this.state = 'portrait'
     }
