@@ -1,0 +1,43 @@
+// https://davidwalsh.name/orientation-change
+// https://stackoverflow.com/a/9039885/4106263
+// https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+// https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation
+// https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
+
+// Resources
+import generateDebounce from 'lodash.debounce'
+
+// Implementation
+export class MobileOrientation {
+  constructor() {
+    window.addEventListener('resize', this.detectPortraitOrientation)
+    window.addEventListener('resize', generateDebounce(this.detectLandscapeOrientation, 500))
+    this.detectLandscapeOrientation()
+    this.detectPortraitOrientation()
+  }
+  get isMobile() {
+    const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
+    const isIos = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)
+    const isIosFallback = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+    return isTouchDevice || isIos || isIosFallback
+  }
+  get isDesktop() {
+    return !this.isMobile
+  }
+  get isPortrait() {
+    return !this.isLandscape
+  }
+  get isLandscape() {
+    return screen.width > screen.height || window.matchMedia('all and (orientation:landscape)').matches
+  }
+  detectLandscapeOrientation = () => {
+    if (this.isLandscape && this.isMobile) {
+      this.state = 'landscape'
+    }
+  }
+  detectPortraitOrientation = () => {
+    if (this.isPortrait || this.isDesktop) {
+      this.state = 'portrait'
+    }
+  }
+}
