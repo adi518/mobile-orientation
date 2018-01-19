@@ -11,7 +11,7 @@ import _debounce from 'lodash.debounce'
 export class MobileOrientation {
   constructor() {
     window.addEventListener('resize', this.detectPortrait)
-    window.addEventListener('resize', _debounce(this.detectLandscape, 500))
+    window.addEventListener('resize', this.debouncedDetectLandscape)
     this.detectLandscape()
     this.detectPortrait()
   }
@@ -30,14 +30,21 @@ export class MobileOrientation {
   get isLandscape() {
     return screen.width > screen.height || window.matchMedia('all and (orientation:landscape)').matches
   }
+  detectPortrait = () => {
+    if (this.isPortrait || this.isDesktop) {
+      this.state = 'portrait'
+    }
+  }
   detectLandscape = () => {
     if (this.isLandscape && this.isMobile) {
       this.state = 'landscape'
     }
   }
-  detectPortrait = () => {
-    if (this.isPortrait || this.isDesktop) {
-      this.state = 'portrait'
-    }
+  debouncedDetectLandscape = () => {
+    return _debounce(this.detectLandscape, 500)
+  }
+  destroy = () => {
+    window.removeEventListener('resize', this.detectPortrait)
+    window.removeEventListener('resize', this.debouncedDetectLandscape)
   }
 }

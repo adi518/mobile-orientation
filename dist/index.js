@@ -109,20 +109,29 @@ var MobileOrientation = exports.MobileOrientation = function () {
 
     _classCallCheck(this, MobileOrientation);
 
-    this.detectLandscape = function () {
-      if (_this.isLandscape && _this.isMobile) {
-        _this.state = 'landscape';
-      }
-    };
-
     this.detectPortrait = function () {
       if (_this.isPortrait || _this.isDesktop) {
         _this.state = 'portrait';
       }
     };
 
+    this.detectLandscape = function () {
+      if (_this.isLandscape && _this.isMobile) {
+        _this.state = 'landscape';
+      }
+    };
+
+    this.debouncedDetectLandscape = function () {
+      return (0, _lodash2.default)(_this.detectLandscape, 500);
+    };
+
+    this.destroy = function () {
+      window.removeEventListener('resize', _this.detectPortrait);
+      window.removeEventListener('resize', _this.debouncedDetectLandscape);
+    };
+
     window.addEventListener('resize', this.detectPortrait);
-    window.addEventListener('resize', (0, _lodash2.default)(this.detectLandscape, 500));
+    window.addEventListener('resize', this.debouncedDetectLandscape);
     this.detectLandscape();
     this.detectPortrait();
   }
