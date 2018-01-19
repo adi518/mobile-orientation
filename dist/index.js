@@ -121,14 +121,12 @@ var MobileOrientation = exports.MobileOrientation = function () {
       }
     };
 
-    this.debouncedDetectLandscape = function () {
-      return (0, _lodash2.default)(_this.detectLandscape, 500);
-    };
-
     this.destroy = function () {
       window.removeEventListener('resize', _this.detectPortrait);
       window.removeEventListener('resize', _this.debouncedDetectLandscape);
     };
+
+    this.debouncedDetectLandscape = (0, _lodash2.default)(this.detectLandscape, 500);
 
     window.addEventListener('resize', this.detectPortrait);
     window.addEventListener('resize', this.debouncedDetectLandscape);

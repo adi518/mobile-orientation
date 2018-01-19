@@ -5,7 +5,7 @@
 // https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
 
 // Resources
-import _debounce from 'lodash.debounce'
+import debounce from 'lodash.debounce'
 
 // Implementation
 export class MobileOrientation {
@@ -40,11 +40,9 @@ export class MobileOrientation {
       this.state = 'landscape'
     }
   }
-  debouncedDetectLandscape = () => {
-    return _debounce(this.detectLandscape, 500)
-  }
   destroy = () => {
     window.removeEventListener('resize', this.detectPortrait)
     window.removeEventListener('resize', this.debouncedDetectLandscape)
   }
+  debouncedDetectLandscape = debounce(this.detectLandscape, 500)
 }
