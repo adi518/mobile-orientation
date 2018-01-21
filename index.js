@@ -12,6 +12,7 @@ export class MobileOrientation {
   constructor() {
     window.addEventListener('resize', this.detectPortrait)
     window.addEventListener('resize', this.debouncedDetectLandscape)
+    this.state = {}
     this.detectLandscape()
     this.detectPortrait()
   }
