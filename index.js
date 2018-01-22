@@ -28,10 +28,12 @@ export class MobileOrientation {
     this.debounced()
   }
   get isMobile() {
+    const tests = []
     const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
     const isIos = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)
     const isIosFallback = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
-    return isTouchDevice || isIos || isIosFallback
+    tests.push(isTouchDevice, isIos, isIosFallback)
+    return this.isTruthy(tests)
   }
   get isDesktop() {
     return !this.isMobile
@@ -40,7 +42,18 @@ export class MobileOrientation {
     return !this.isLandscape
   }
   get isLandscape() {
-    return screen.width > screen.height || window.matchMedia('all and (orientation:landscape)').matches
+    const tests = [window.screen.width > window.screen.height]
+    if (window.matchMedia) {
+      tests.push(window.matchMedia('all and (orientation:landscape)').matches)
+    }
+    return this.isTruthy(tests)
+  }
+  isTruthy(tests = []) {
+    return tests.some(result => result === true)
+  }
+  detect = () => {
+    this.detectPortrait()
+    this.detectLandscape()
   }
   detectPortrait = () => {
     if (this.isPortrait || this.isDesktop) {
@@ -51,10 +64,6 @@ export class MobileOrientation {
     if (this.isLandscape && this.isMobile) {
       this.state = 'landscape'
     }
-  }
-  detect = () => {
-    this.detectPortrait()
-    this.detectLandscape()
   }
   destroy = () => {
     window.removeEventListener('resize', this.debounced)
