@@ -28,6 +28,9 @@ export default {
     computed: {
         isPortrait() {
             return this.orientation.isPortrait
+        },
+        isLandscape() {
+            return this.orientation.isLandscape
         }
     }
 }
