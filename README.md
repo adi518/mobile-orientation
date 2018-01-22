@@ -33,8 +33,8 @@ export default {
 }
 ```
 ## Options
-Time to wait before invoking tests.
-* `debounceTime`: {Number} | Default: 50 | Format: Milliseconds
+Time to wait before invoking detection.
+* `debounceTime`: {Number} | Format: Milliseconds | Default: 50
 
 ## Preview
 <img src="portrait.png" height="400" alt="portrait">
