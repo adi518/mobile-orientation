@@ -10,7 +10,7 @@ import { MobileOrientation } from 'mobile-orientation'
 
 const orientation = new MobileOrientation()
 
-console.log(orientation) // { state: 'portrait' }
+console.log(orientation.state) // 'portrait'
 
 orientation.subscribe('resize', state => console.log(state)) // portrait or landscape
 orientation.subscribe('portrait', state => console.log(state)) // portrait
