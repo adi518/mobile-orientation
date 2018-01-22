@@ -1,6 +1,6 @@
 {
   "name": "mobile-orientation",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "",
   "main": "dist",
   "scripts": {
@@ -22,6 +22,7 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "es6-emitter": "^1.0.1",
     "lodash.debounce": "^4.0.8"
   }
 }
