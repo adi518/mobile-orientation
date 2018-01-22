@@ -9,12 +9,23 @@ import debounce from 'lodash.debounce'
 
 // Implementation
 export class MobileOrientation {
-  constructor() {
-    window.addEventListener('resize', this.detectPortrait)
-    window.addEventListener('resize', this.debouncedDetectLandscape)
+  constructor(options = {}) {
+    // Setup Options
+    const {
+      debounceTime = 0
+    } = options
+
+    // Initial State
     this.state = {}
-    this.detectLandscape()
-    this.detectPortrait()
+
+    // Setup Debounce
+    this.debounced = debounce(this.detect, debounceTime)
+
+    // Bind Events
+    window.addEventListener('resize', this.debounced)
+
+    // Initial Detection
+    this.debounced()
   }
   get isMobile() {
     const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
@@ -41,9 +52,11 @@ export class MobileOrientation {
       this.state = 'landscape'
     }
   }
-  destroy = () => {
-    window.removeEventListener('resize', this.detectPortrait)
-    window.removeEventListener('resize', this.debouncedDetectLandscape)
+  detect = () => {
+    this.detectPortrait()
+    this.detectLandscape()
   }
-  debouncedDetectLandscape = debounce(this.detectLandscape, 500)
+  destroy = () => {
+    window.removeEventListener('resize', this.debounced)
+  }
 }
