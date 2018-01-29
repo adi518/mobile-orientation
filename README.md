@@ -39,7 +39,24 @@ export default {
 ```
 ## Options
 Time to wait before invoking detection.
-* `debounceTime`: {Number} | Format: Milliseconds | Default: 50
+
+### `debounceTime`
+    * Type: {Number}
+    * Default: `50`
+    * Format: Milliseconds
+
+### `withTouch`
+    * Type: {Boolean}
+    * Default: `false`
+    * Description: Include touch-device when testing mobile
+
+### `portraitMediaQuery`
+See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries) for media queries syntax.
+
+    * Type: {String}
+    * Default: `all and (max-device-aspect-ratio: 1/1), (max-aspect-ratio: 1/1)`
+    * Format: CSS Media Query
+    * Description: The media-query to test for Portrait mode.
 
 ## Preview
 <img src="portrait.png" height="400" alt="portrait">

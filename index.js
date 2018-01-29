@@ -2,6 +2,7 @@
 
 // https://davidwalsh.name/orientation-change
 // https://stackoverflow.com/a/9039885/4106263
+// https://github.com/webpack/webpack-dev-server/issues/345
 // https://developer.mozilla.org/en-US/docs/Web/API/Screen/width
 // https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
 // https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange
@@ -28,13 +29,13 @@ const LANDSCAPE = 'landscape'
 
 // Implementation
 export class MobileOrientation {
-  constructor(options = {}) {    
+  constructor(options = {}) {
     // Setup Defaults
     const defaults = {
       debug: false,
       withTouch: false,
       debounceTime: 50,
-      landscapeMediaQuery: 'all and (max-device-aspect-ratio: 1/1), (max-aspect-ratio: 1/1)'
+      portraitMediaQuery: 'all and (max-device-aspect-ratio: 1/1), (max-aspect-ratio: 1/1)'
     }
 
     // Setup Options
@@ -44,7 +45,7 @@ export class MobileOrientation {
     }
 
     // Initial State
-    this.state = nul
+    this.state = null
 
     // Setup Debounce
     this.detect = debounce(() => {
@@ -82,16 +83,16 @@ export class MobileOrientation {
     return this.state === 'landscape'
   }
   get _isPortrait() {
-    return !this._isLandscape
-  }
-  get _isLandscape() {
     const tests = []
     if (window.matchMedia) {
-      tests.push(window.matchMedia(this.options.landscapeMediaQuery).matches)
+      tests.push(window.matchMedia(this.options.portraitMediaQuery).matches)
     } else if (this.isDebug) {
       log('incompatible browser')
     }
     return this.isTruthy(tests)
+  }
+  get _isLandscape() {
+    return !this._isPortrait
   }
   get events() {
     return [RESIZE, PORTRAIT, LANDSCAPE]
@@ -119,7 +120,7 @@ export class MobileOrientation {
     }
   }
   detectLandscape = () => {
-    if (this._isLandscape && this.isMobile) {
+    if (this._isLandscape) {
       this.state = 'landscape'
       this.emit(LANDSCAPE)
     }

@@ -3,6 +3,10 @@
     <h1>Orientation:
       <i>{{computedOrientation.toUpperCase()}}</i>
     </h1>
+    <h4>
+      Keyboard tester
+    </h4>
+    <input>
   </div>
 </template>
 
