@@ -1,5 +1,7 @@
 # Mobile-Orientation
 Detect Mobile Portrait/Landscape on resize.
+## Browser compatibility
+See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia).
 ## Install
 ```
 npm install --save mobile-orientation
