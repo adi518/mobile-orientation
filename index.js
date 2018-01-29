@@ -87,7 +87,7 @@ export class MobileOrientation {
     if (window.matchMedia) {
       tests.push(window.matchMedia(this.options.portraitMediaQuery).matches)
     } else if (this.isDebug) {
-      log('incompatible browser')
+      this.log('incompatible browser')
     }
     return this.isTruthy(tests)
   }
@@ -120,7 +120,7 @@ export class MobileOrientation {
     }
   }
   detectLandscape = () => {
-    if (this._isLandscape) {
+    if (this._isLandscape && this.isMobile) {
       this.state = 'landscape'
       this.emit(LANDSCAPE)
     }
