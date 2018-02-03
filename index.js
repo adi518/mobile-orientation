@@ -35,7 +35,7 @@ export class MobileOrientation {
       debug: false,
       withTouch: false,
       debounceTime: 50,
-      portraitMediaQuery: 'all and (max-device-aspect-ratio: 1/1)'
+      portraitMediaQuery: 'screen and (max-device-aspect-ratio: 1/1)'
     }
 
     // Setup Options
