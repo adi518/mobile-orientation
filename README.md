@@ -48,15 +48,15 @@ Time to wait before invoking detection.
 #### `withTouch`
 * Type: `Boolean`
 * Default: `false`
-* Description: Include touch-device when testing mobile
+* Description: Include touch-device when testing mobile.
 
 #### `portraitMediaQuery`
 See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries) for media queries syntax.
 
 * Type: `String`
-* Default: `all and (max-device-aspect-ratio: 1/1), (max-aspect-ratio: 1/1)`
+* Default: `screen and (max-device-aspect-ratio: 1/1)`
 * Format: CSS Media Query
-* Description: The media-query to test for Portrait mode.
+* Description: CSS Media Query to test against portrait.
 
 ## Preview
 <img src="portrait.png" height="400" alt="portrait">
