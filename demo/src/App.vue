@@ -11,12 +11,14 @@ export default {
 </script>
 
 <style>
+@import url(https://fonts.googleapis.com/css?family=Fira+Mono|Fira+Sans:300);
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Fira Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+  font-weight: 300;
 }
 
 body {

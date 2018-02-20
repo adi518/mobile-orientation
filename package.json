@@ -1,6 +1,6 @@
 {
   "name": "mobile-orientation",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "",
   "main": "dist",
   "scripts": {
@@ -18,6 +18,8 @@
     "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0"
   },
