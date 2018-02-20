@@ -14,9 +14,9 @@ const orientation = new MobileOrientation()
 
 console.log(orientation.state) // 'portrait'
 
-orientation.on('resize', state => console.log(state)) // portrait or landscape
-orientation.on('portrait', state => console.log(state)) // portrait
-orientation.on('landscape', state => console.log(state)) // landscape
+orientation.subscribe('resize', state => console.log(state)) // portrait or landscape
+orientation.subscribe('portrait', state => console.log(state)) // portrait
+orientation.subscribe('landscape', state => console.log(state)) // landscape
 ```
 Alternatively, the state can be utilized within a computed property, a la [Vue.js Computed Property](https://vuejs.org/v2/guide/computed.html).
 ```js
