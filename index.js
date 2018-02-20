@@ -18,11 +18,12 @@ import pkg from './package.json'
 import Emitter from 'es6-emitter'
 import capitalize from 'capitalize'
 import debounce from 'lodash.debounce'
-import Device from './Device'
+import { DetectByGl } from './helpers/DetectByGl'
 
 // Constants
-const emitter = new Emitter()
 const namespace = pkg.name
+const emitter = new Emitter()
+const device = new DetectByGl()
 
 // Event-Types
 const RESIZE = 'resize'
@@ -32,7 +33,7 @@ const LANDSCAPE = 'landscape'
 // Implementation
 export class MobileOrientation {
   constructor(options = {}) {
-    // Setup Defaults
+
     const defaults = {
       debug: false,
       withTouch: false,
@@ -40,36 +41,23 @@ export class MobileOrientation {
       portraitMediaQuery: 'screen and (max-device-aspect-ratio: 1/1)'
     }
 
-    // Setup Options
-    this.options = {
-      ...defaults,
-      ...options
-    }
+    this.options = { ...defaults, ...options }
 
-    // Initial State
     this.state = null
-
-    // Setup Debounce
+    
     this.detect = debounce(() => {
       this._detect()
       this.emit(RESIZE)
     }, this.options.debounceTime)
-
-    // Bind Events
+    
     window.addEventListener(RESIZE, this.detect)
 
     // Initial Detection
     this.detect()
   }
-  get emitter() {
-    return emitter
-  }
-  get Device() {
-    return Device
-  }
   get isMobile() {
     const tests = []
-    const isIosOrAndroid = this.Device.getModels().length
+    const isIosOrAndroid = device.models.length
     const isIos = !!window.navigator.platform && /iPad|iPhone|iPod/.test(window.navigator.platform)
     const isIosFallback = !window.MSStream && /iPad|iPhone|iPod/.test(window.navigator.userAgent)
     const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
@@ -132,11 +120,11 @@ export class MobileOrientation {
     }
   }
   emit(event) {
-    this.emitter.emit(event, this.state)
+    emitter.emit(event, this.state)
   }
   subscribe(event, callback = () => { }) {
     if (this.events.includes(event)) {
-      this.emitter.subscribe(event, callback)
+      emitter.subscribe(event, callback)
     }
   }
   destroy() {
