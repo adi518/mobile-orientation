@@ -1,10 +1,14 @@
 <template>
   <div class="demo">
-    <img class="preview" :class="[computedOrientation]" :src="preview" :alt="computedOrientation">
-    <h4>
-      Keyboard tester
-    </h4>
-    <input class="keyboard-tester">
+    <div class="wrap">
+      <img class="preview" :class="[computedOrientation]" :src="preview" :alt="computedOrientation">
+      <div class="keyboard-tester">
+        <h4>
+          keyboard tester
+        </h4>
+        <input>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,9 +60,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .demo {
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
+  position: fixed;
+  touch-action: none;
   align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wrap {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
@@ -73,14 +88,22 @@ export default {
 
 .preview.landscape {
   max-width: 640px;
+  max-height: 100%;
   @media screen and (max-width: 640px) {
-    max-width: 360px;
+    max-width: 320px;
     max-height: 100%;
   }
 }
 
 .keyboard-tester {
-  outline: none;
-  border-radius: 0.5em;
+  h4 {
+    text-align: center;
+  }
+
+  input {
+    width: 100%;
+    outline: none;
+    border-radius: 0.5em;
+  }
 }
 </style>
