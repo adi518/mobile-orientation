@@ -1,3 +1,3 @@
-# Detect-ie Demo
+# Mobile-orientation Demo
 
 https://adi518.github.io/mobile-orientation/
