@@ -1,5 +1,6 @@
 /* eslint-disable space-before-function-paren */
 
+// https://github.com/joyqi/mobile-device-js
 // https://davidwalsh.name/orientation-change
 // https://stackoverflow.com/a/9039885/4106263
 // https://github.com/webpack/webpack-dev-server/issues/345
@@ -13,10 +14,11 @@
 // https://stackoverflow.com/questions/8883163/css-media-query-soft-keyboard-breaks-css-orientation-rules-alternative-solut
 
 // Resources
-import debounce from 'lodash.debounce'
-import Emitter from 'es6-emitter'
 import pkg from './package.json'
+import Emitter from 'es6-emitter'
 import capitalize from 'capitalize'
+import debounce from 'lodash.debounce'
+import Device from './Device'
 
 // Constants
 const emitter = new Emitter()
@@ -62,12 +64,16 @@ export class MobileOrientation {
   get emitter() {
     return emitter
   }
+  get Device() {
+    return Device
+  }
   get isMobile() {
     const tests = []
+    const isIosOrAndroid = this.Device.getModels().length
     const isIos = !!window.navigator.platform && /iPad|iPhone|iPod/.test(window.navigator.platform)
-    const isIosFallback = /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream
+    const isIosFallback = !window.MSStream && /iPad|iPhone|iPod/.test(window.navigator.userAgent)
     const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
-    tests.push(isIos, isIosFallback)
+    tests.push(isIosOrAndroid, isIos, isIosFallback)
     if (this.options.withTouch) {
       tests.push(isTouchDevice)
     }
