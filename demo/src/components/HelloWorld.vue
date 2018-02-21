@@ -3,9 +3,7 @@
     <div class="wrap">
       <img class="preview" :class="[computedOrientation]" :src="preview" :alt="computedOrientation">
       <div class="keyboard-tester">
-        <h4>
-          keyboard tester
-        </h4>
+        <h4> keyboard tester </h4>
         <input>
       </div>
     </div>
@@ -29,7 +27,7 @@ export default {
     return {
       portrait,
       landscape,
-      orientation: new MobileOrientation({ withTouch: true })
+      orientation: new MobileOrientation()
     }
   },
   created() {
@@ -87,7 +85,7 @@ export default {
 }
 
 .preview.landscape {
-  max-width: 640px;
+  max-width: 480px;
   max-height: 100%;
   @media screen and (max-width: 640px) {
     max-width: 320px;

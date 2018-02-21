@@ -3,11 +3,16 @@
 // https://github.com/joyqi/mobile-device-js
 // https://davidwalsh.name/orientation-change
 // https://stackoverflow.com/a/9039885/4106263
+// https://stackoverflow.com/a/14283643/4106263
 // https://github.com/webpack/webpack-dev-server/issues/345
 // https://developer.mozilla.org/en-US/docs/Web/API/Screen/width
+// http://robandlauren.com/2014/04/03/aspect-ratio-media-queries/
 // https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
 // https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange
+// https://developer.mozilla.org/en-US/docs/Web/CSS/%40media/aspect-ratio
+// https://developer.mozilla.org/en-US/docs/Web/CSS/%40media/device-aspect-ratio
 // https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation
+// https://stackoverflow.com/questions/1818474/how-to-trigger-the-window-resize-event-in-javascript
 // https://stackoverflow.com/questions/13270659/detect-virtual-keyboard-vs-hardware-keyboard/47396515#47396515
 // https://stackoverflow.com/questions/28272274/how-to-detect-keyboard-show-hide-event-in-jquery-for-mobile-web-application
 // https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
@@ -33,7 +38,6 @@ const LANDSCAPE = 'landscape'
 // Implementation
 export class MobileOrientation {
   constructor(options = {}) {
-
     const defaults = {
       debug: false,
       withTouch: false,
@@ -43,29 +47,33 @@ export class MobileOrientation {
 
     this.options = { ...defaults, ...options }
 
-    this.state = null
-    
-    this.detect = debounce(() => {
-      this._detect()
-      this.emit(RESIZE)
-    }, this.options.debounceTime)
-    
-    window.addEventListener(RESIZE, this.detect)
+    this.setState(null)
 
-    // Initial Detection
-    this.detect()
+    this.debounceDetect()
+
+    window.addEventListener(RESIZE, this.detect)
+    window.dispatchEvent(new Event(RESIZE))
   }
   get isMobile() {
     const tests = []
-    const isIosOrAndroid = device.models.length
-    const isIos = !!window.navigator.platform && /iPad|iPhone|iPod/.test(window.navigator.platform)
-    const isIosFallback = !window.MSStream && /iPad|iPhone|iPod/.test(window.navigator.userAgent)
-    const isTouchDevice = window.navigator.msMaxTouchPoints || 'ontouchstart' in document
+    const { isIos, isIosFallback, isIosOrAndroid, isTouchDevice } = this
     tests.push(isIosOrAndroid, isIos, isIosFallback)
     if (this.options.withTouch) {
       tests.push(isTouchDevice)
     }
     return this.isTruthy(tests)
+  }
+  get isIos() {
+    return !!window.navigator.platform && /iPad|iPhone|iPod/.test(window.navigator.platform)
+  }
+  get isIosFallback() {
+    return !window.MSStream && /iPad|iPhone|iPod/.test(window.navigator.userAgent)
+  }
+  get isIosOrAndroid() {
+    return device.models.length
+  }
+  get isTouchDevice() {
+    return window.navigator.msMaxTouchPoints || 'onmsgesturechange' in window || 'ontouchstart' in document
   }
   get isDesktop() {
     return !this.isMobile
@@ -94,6 +102,15 @@ export class MobileOrientation {
   get isDebug() {
     return this.options.debug
   }
+  debounceDetect() {
+    this.detect = debounce(() => {
+      this._detect()
+      this.emit(RESIZE)
+    }, this.options.debounceTime)
+  }
+  setState(payload) {
+    this.state = payload
+  }
   log(message) {
     console.warn(`${capitalize.words(namespace)}: ${capitalize(message)}.`)
   }
@@ -109,13 +126,13 @@ export class MobileOrientation {
   }
   detectPortrait = () => {
     if (this._isPortrait || this.isDesktop) {
-      this.state = 'portrait'
+      this.setState('portrait')
       this.emit(PORTRAIT)
     }
   }
   detectLandscape = () => {
     if (this._isLandscape && this.isMobile) {
-      this.state = 'landscape'
+      this.setState('landscape')
       this.emit(LANDSCAPE)
     }
   }
