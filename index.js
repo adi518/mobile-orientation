@@ -10,13 +10,14 @@
 // https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
 // https://developer.mozilla.org/en-US/docs/Web/Events/orientationchange
 // https://developer.mozilla.org/en-US/docs/Web/CSS/%40media/aspect-ratio
+// https://stackoverflow.com/questions/8712036/dom-event-fired-by-window-resize
 // https://developer.mozilla.org/en-US/docs/Web/CSS/%40media/device-aspect-ratio
 // https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation
 // https://stackoverflow.com/questions/1818474/how-to-trigger-the-window-resize-event-in-javascript
 // https://stackoverflow.com/questions/13270659/detect-virtual-keyboard-vs-hardware-keyboard/47396515#47396515
 // https://stackoverflow.com/questions/28272274/how-to-detect-keyboard-show-hide-event-in-jquery-for-mobile-web-application
-// https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
 // https://stackoverflow.com/questions/8883163/css-media-query-soft-keyboard-breaks-css-orientation-rules-alternative-solut
+// https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
 
 // Resources
 import pkg from './package.json'
