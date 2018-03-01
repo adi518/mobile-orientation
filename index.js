@@ -26,15 +26,16 @@ import capitalize from 'capitalize'
 import debounce from 'lodash.debounce'
 import { DetectByGl } from './helpers/DetectByGl'
 
-// Constants
-const namespace = pkg.name
+// Instances
 const emitter = new Emitter()
 const device = new DetectByGl()
 
-// Event-Types
+// Constants
+const NAMESPACE = pkg.name
 const RESIZE = 'resize'
 const PORTRAIT = 'portrait'
 const LANDSCAPE = 'landscape'
+const IOS_REGEX = /iPad|iPhone|iPod/
 
 // Implementation
 export class MobileOrientation {
@@ -45,13 +46,9 @@ export class MobileOrientation {
       debounceTime: 50,
       portraitMediaQuery: 'screen and (max-device-aspect-ratio: 1/1)'
     }
-
     this.options = { ...defaults, ...options }
-
     this.setState(null)
-
     this.debounceDetect()
-
     window.addEventListener(RESIZE, this.detect)
     window.dispatchEvent(new Event(RESIZE))
   }
@@ -65,10 +62,10 @@ export class MobileOrientation {
     return this.isTruthy(tests)
   }
   get isIos() {
-    return !!window.navigator.platform && /iPad|iPhone|iPod/.test(window.navigator.platform)
+    return !!window.navigator.platform && IOS_REGEX.test(window.navigator.platform)
   }
   get isIosFallback() {
-    return !window.MSStream && /iPad|iPhone|iPod/.test(window.navigator.userAgent)
+    return !window.MSStream && IOS_REGEX.test(window.navigator.userAgent)
   }
   get isIosOrAndroid() {
     return device.models.length
@@ -113,13 +110,10 @@ export class MobileOrientation {
     this.state = payload
   }
   log(message) {
-    console.warn(`${capitalize.words(namespace)}: ${capitalize(message)}.`)
+    console.warn(`${capitalize.words(NAMESPACE)}: ${capitalize(message)}.`)
   }
   isTruthy(tests = []) {
     return tests.some(result => result === true)
-  }
-  isAllTruthy(tests = []) {
-    return tests.every(result => result === true)
   }
   _detect = () => {
     this.detectPortrait()
@@ -140,7 +134,7 @@ export class MobileOrientation {
   emit(event) {
     emitter.emit(event, this.state)
   }
-  subscribe(event, callback = () => { }) {
+  on(event, callback = () => { }) {
     if (this.events.includes(event)) {
       emitter.subscribe(event, callback)
     }

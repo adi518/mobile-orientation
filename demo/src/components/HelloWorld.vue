@@ -1,5 +1,6 @@
 <template>
   <div class="demo">
+    <div class="version">{{VERSION}}</div>
     <div class="wrap">
       <img class="preview" :class="[computedOrientation]" :src="preview" :alt="computedOrientation">
       <div class="keyboard-tester">
@@ -15,29 +16,35 @@
 // https://css-tricks.com/almanac/properties/i/image-rendering/
 
 // Resources
+import pkg from '@@/package'
 import { MobileOrientation } from '@@/dist'
 
 // Assets
-import portrait from '@@/portrait-iphone-x.png'
-import landscape from '@@/landscape-iphone-x.png'
+import portrait from '@/assets/portrait.png'
+import landscape from '@/assets/landscape.png'
 
+// Constants
+const { version: VERSION } = pkg
+
+// Implementation
 export default {
   name: 'HelloWorld',
   data() {
     return {
       portrait,
       landscape,
+      VERSION,
       orientation: new MobileOrientation()
     }
   },
   created() {
-    this.orientation.subscribe('resize', state => {
+    this.orientation.on('resize', state => {
       console.warn(`Event: 'Resize', Orientation: '${state}'`)
     })
-    this.orientation.subscribe('portrait', () => {
+    this.orientation.on('portrait', () => {
       console.warn(`Event: 'Portrait'`)
     })
-    this.orientation.subscribe('landscape', () => {
+    this.orientation.on('landscape', () => {
       console.warn(`Event: 'Landscape'`)
     })
   },
@@ -103,5 +110,13 @@ export default {
     outline: none;
     border-radius: 0.5em;
   }
+}
+
+.version {
+  top: 0;
+  left: 0;
+  position: fixed;
+  margin-left: 1em;
+  margin-top: 1em;
 }
 </style>
