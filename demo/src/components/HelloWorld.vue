@@ -34,7 +34,7 @@ export default {
       portrait,
       landscape,
       VERSION,
-      orientation: new MobileOrientation()
+      orientation: new MobileOrientation({ withTouch: true })
     }
   },
   created() {

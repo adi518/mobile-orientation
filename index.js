@@ -28,7 +28,8 @@ import { DetectByGl } from './helpers/DetectByGl'
 
 // Instances
 const emitter = new Emitter()
-const device = new DetectByGl()
+// const device = new DetectByGl()
+const device = { models: [] }
 
 // Constants
 const NAMESPACE = pkg.name
