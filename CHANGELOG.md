@@ -1,4 +1,6 @@
 # Changelog
+## 2.1.0
+* Add option `landscapeMediaQuery`.
 ## 2.0.1
 ### Changes
 * Disable detection by GL due to crashes.

@@ -45,7 +45,8 @@ export class MobileOrientation {
       debug: false,
       withTouch: false,
       debounceTime: 50,
-      portraitMediaQuery: 'screen and (max-device-aspect-ratio: 1/1)'
+      portraitMediaQuery: 'screen and (max-device-aspect-ratio: 1/1)',
+      landscapeMediaQuery: ''
     }
     this.options = { ...defaults, ...options }
     this.setState(null)
@@ -93,7 +94,14 @@ export class MobileOrientation {
     return this.isTruthy(tests)
   }
   get _isLandscape() {
-    return !this._isPortrait
+    const tests = []
+    tests.push(!this._isPortrait)
+    if (window.matchMedia) {
+      tests.push(window.matchMedia(this.options.landscapeMediaQuery).matches)
+    } else if (this.isDebug) {
+      this.log('incompatible browser')
+    }
+    return this.isTruthy(tests)
   }
   get events() {
     return [RESIZE, PORTRAIT, LANDSCAPE]
