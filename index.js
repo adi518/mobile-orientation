@@ -64,16 +64,26 @@ export class MobileOrientation {
     return this.isTruthy(tests)
   }
   get isIos() {
-    return !!window.navigator.platform && IOS_REGEX.test(window.navigator.platform)
+    const tests = []
+    tests.push(!!window.navigator.platform)
+    tests.push(IOS_REGEX.test(window.navigator.platform))
+    return this.isAllTruthy(tests)
   }
   get isIosFallback() {
-    return !window.MSStream && IOS_REGEX.test(window.navigator.userAgent)
+    const tests = []
+    tests.push(!window.MSStream)
+    tests.push(IOS_REGEX.test(window.navigator.userAgent))
+    return this.isAllTruthy(tests)
   }
   get isIosOrAndroid() {
     return device.models.length
   }
   get isTouchDevice() {
-    return window.navigator.msMaxTouchPoints || 'onmsgesturechange' in window || 'ontouchstart' in document
+    const tests = []
+    tests.push(window.navigator.msMaxTouchPoints)
+    tests.push('onmsgesturechange' in window)
+    tests.push('ontouchstart' in document)
+    return this.isTruthy(tests)
   }
   get isDesktop() {
     return !this.isMobile
@@ -101,7 +111,7 @@ export class MobileOrientation {
     } else if (this.isDebug) {
       this.log('incompatible browser')
     }
-    return this.isTruthy(tests)
+    return this.isAllTruthy(tests)
   }
   get events() {
     return [RESIZE, PORTRAIT, LANDSCAPE]
@@ -123,6 +133,9 @@ export class MobileOrientation {
   }
   isTruthy(tests = []) {
     return tests.some(result => result === true)
+  }
+  isAllTruthy(tests = []) {
+    return tests.every(result => result === true)
   }
   _detect = () => {
     this.detectPortrait()
