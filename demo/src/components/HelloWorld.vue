@@ -49,6 +49,9 @@ export default {
       console.warn(`Event: 'Landscape'`)
     })
   },
+  beforeDestroy() {
+    this.orientation.destroy()
+  },
   computed: {
     computedOrientation() {
       return this.orientation.state || ''
