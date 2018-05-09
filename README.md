@@ -57,3 +57,11 @@ See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_m
 * Default: `screen and (max-device-aspect-ratio: 1/1)`
 * Format: CSS Media Query
 * Description: CSS Media Query to test against portrait.
+
+#### `landscapeMediaQuery`
+See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries) for media queries syntax.
+
+* Type: `String`
+* Default: `all`
+* Format: CSS Media Query
+* Description: CSS Media Query to test against landscape.

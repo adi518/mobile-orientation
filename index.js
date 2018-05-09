@@ -14,17 +14,21 @@
 // https://developer.mozilla.org/en-US/docs/Web/CSS/%40media/device-aspect-ratio
 // https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation
 // https://stackoverflow.com/questions/1818474/how-to-trigger-the-window-resize-event-in-javascript
+// https://stackoverflow.com/questions/26596123/internet-explorer-9-10-11-event-constructor-doesnt-work
 // https://stackoverflow.com/questions/13270659/detect-virtual-keyboard-vs-hardware-keyboard/47396515#47396515
 // https://stackoverflow.com/questions/28272274/how-to-detect-keyboard-show-hide-event-in-jquery-for-mobile-web-application
 // https://stackoverflow.com/questions/8883163/css-media-query-soft-keyboard-breaks-css-orientation-rules-alternative-solut
 // https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad
+
+// Polyfills
+import 'custom-event-polyfill'
 
 // Resources
 import pkg from './package.json'
 import Emitter from 'es6-emitter'
 import capitalize from 'capitalize'
 import debounce from 'lodash.debounce'
-import { DetectByGl } from './helpers/DetectByGl'
+// import { DetectByGl } from './helpers/DetectByGl'
 
 // Instances
 const emitter = new Emitter()
@@ -46,13 +50,13 @@ export class MobileOrientation {
       withTouch: false,
       debounceTime: 50,
       portraitMediaQuery: 'screen and (max-device-aspect-ratio: 1/1)',
-      landscapeMediaQuery: ''
+      landscapeMediaQuery: 'all'
     }
     this.options = { ...defaults, ...options }
     this.setState(null)
     this.debounceDetect()
     window.addEventListener(RESIZE, this.detect)
-    window.dispatchEvent(new Event(RESIZE))
+    window.dispatchEvent(new window.CustomEvent(RESIZE))
   }
   get isMobile() {
     const tests = []
@@ -108,7 +112,7 @@ export class MobileOrientation {
     tests.push(!this._isPortrait)
     if (window.matchMedia) {
       tests.push(window.matchMedia(this.options.landscapeMediaQuery).matches)
-    } else if (this.isDebug) {
+    } else if (this.debug) {
       this.log('incompatible browser')
     }
     return this.isAllTruthy(tests)
@@ -116,7 +120,7 @@ export class MobileOrientation {
   get events() {
     return [RESIZE, PORTRAIT, LANDSCAPE]
   }
-  get isDebug() {
+  get debug() {
     return this.options.debug
   }
   debounceDetect() {

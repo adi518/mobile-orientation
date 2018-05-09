@@ -12,7 +12,10 @@
 </template>
 
 <script>
+/* eslint-disable comma-dangle */
+/* eslint-disable no-unused-vars */
 /* eslint-disable space-before-function-paren */
+
 // https://css-tricks.com/almanac/properties/i/image-rendering/
 
 // Resources
@@ -29,14 +32,12 @@ const { version: VERSION } = pkg
 // Implementation
 export default {
   name: 'HelloWorld',
-  data() {
-    return {
-      portrait,
-      landscape,
-      VERSION,
-      orientation: new MobileOrientation({ withTouch: true })
-    }
-  },
+  data: () => ({
+    portrait,
+    landscape,
+    VERSION,
+    orientation: new MobileOrientation({ withTouch: true })
+  }),
   created() {
     this.orientation.on('resize', state => {
       console.warn(`Event: 'Resize', Orientation: '${state}'`)
